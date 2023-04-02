@@ -33,7 +33,8 @@ xmlns: sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				<input type="password" name="password" class="form-control" placeholder="Password"required>
 			</div>
 
-			<button type="submit" class="btn btn-warning">Submit</button>
+			<button type="submit" class="btn btn-warning">로그인</button>
+			<a href="https://kauth.kakao.com/oauth/authorize?client_id=b56fc54652eee24b05ff45ef46f5c893&redirect_uri=http://localhost:3333/bowwow/auth/kakao/callback&response_type=code"><img height="40px" th:src="@{/images/kakao_login_medium.png}"></a>
 		</form>
 	  </div>
    </div>

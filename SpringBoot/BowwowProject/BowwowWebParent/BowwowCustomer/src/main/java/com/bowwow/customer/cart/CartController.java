@@ -48,11 +48,6 @@ public class CartController {
 			cartList = cartService.getUserCart(p.getName());
 			
 	    }
-		for(Cart cart : cartList) {
-            float discount = cart.getProduct().getDiscount();
-            int discountPercent = (int) Math.round(discount * 10);
-            model.addAttribute("discountPercent", discountPercent);
-        }
 		model.addAttribute("cartList", cartList);
 		return "users/cart";
 	}

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.bowwow.common.entity.Order;
 import com.bowwow.common.entity.OrderDetail;
-import com.bowwow.common.entity.User;
 
 @Service
 @Transactional

@@ -1,0 +1,128 @@
+p {
+	display: none;
+}
+.hh{
+	display : block;
+}
+
+#hhimg{
+	width: 250px;
+	height: 250px;
+	border-radius: 10px;
+}
+#monthimg{
+	width: 400px;
+	height: 400px;
+	border-radius: 10px;
+}
+#designimg{
+	width: 600px;
+	height: 500px;
+	border-radius: 10px;
+}
+#price{
+	font-size: 15px;
+	text-align:center; 
+}
+
+#mhimg{
+	width: 230px;
+	height: 222px;
+}
+
+body {
+    margin: 50px auto 50px 200px; 
+    
+}
+#header {
+	color: gray; 
+	font-size: 350%; 
+	text-align:center; 
+	width: 1100px; 
+	height: 150px;
+	background: #ffffff; 
+	border: dashed 3px gray;
+	margin-top: 0px; 
+	padding:15px 0px 10px 0px;
+	border-radius: 10px;
+	}
+	
+#rr{
+		width:1100px;
+		height:45px;
+		text-align: center;
+		margin:17px auto 10px auto;
+	}
+#categorytext {
+	margin-top: 5px;
+   height: 600px;
+   width: 230px;
+  margin: 10px 5px 40px auto;
+   float: left;
+   border-radius: 10px;
+   background: #ffffff;
+	border: solid 1px gray;
+   
+	}
+	
+.mh{
+	font-size: 15px;
+	text-align: center;
+	padding: 5px 10px; 
+	margin-bottom: 15px;
+	margin-top: 15px;
+	background: rgb(254, 252, 182);
+	border-radius: 25px;
+	color:gray;
+	}	
+
+#menuExplaintext{
+   padding: 10px; 
+   margin: 10px auto 40px 5px;
+  
+  
+   height: 580px;
+   width: 840px;
+   
+   float: left;
+   
+   border-radius: 10px;
+   background: #ffffff;
+	border: solid 1px gray;
+	overflow : auto;
+	}
+	#menuExplaintext::-webkit-scrollbar {
+    display: none; 
+}
+
+#menuExplaintext2{
+	margin: 0px 35px 0px 43px;
+	
+}
+	
+#re{ margin : 10px 10px 0 0; float: right;}
+.reservation-button{
+	border: 1px solid rgb(128, 128, 128); 
+	border-radius: 5px; 
+	padding: 4px; 
+	font-size: 12px;
+	font-weight: bold;
+	color: gray;
+	width: 120px; 
+	padding: 5px 5px; 
+	background: #ffffff;
+	
+}
+
+.reservation-check-button{
+	 border: 1px solid rgb(128, 128, 128); 
+	border-radius: 5px; 
+	padding: 4px; 
+	font-size: 12px;
+	font-weight: bold;
+	color: gray;
+	width: 120px; 
+	background: #ffffff;
+	
+}
+/*=============================================================  */

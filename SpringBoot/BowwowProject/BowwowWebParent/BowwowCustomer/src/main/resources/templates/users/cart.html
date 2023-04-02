@@ -37,7 +37,7 @@
 							<td><a th:href="@{'/product/detail/' + ${cartlist.product.id} + '/1'}"><img th:src="@{${cartlist.product.mainImagePath}}" style="width:100px" class="img-fluid"/></a></td>
 							<td>[[${cartlist.product.mainName}]] [[${cartlist.product.subName}]]</td>
 							<td>[[${cartlist.count}]]</td>
-							<td>[[${cartlist.count * cartlist.product.price * (1-discountPercent)}]] 원</td>
+							<td>[[${cartlist.product.price}]] 원</td>
 							<td><input name="selectdItem" th:value="${cartlist.id}" type="checkbox"/></td>		
 						</tr>
 												

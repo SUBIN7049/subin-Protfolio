@@ -22,7 +22,7 @@ public class User {
 	@Column(length = 64, nullable = false)
 	private String password;
 	
-	@Column(length = 45, nullable = false)
+	@Column(length = 75, nullable = false)
 	private String name;
 	
 	@Column(name = "nick_name", length = 128, nullable = false, unique = true)
@@ -31,10 +31,10 @@ public class User {
 	@Column(length = 45, nullable = false)
 	private String role;
 	
-	@Column(length = 64, nullable = false)
+	@Column(length = 64)
 	private String phone;
 	
-	@Column(length = 512, nullable = false)
+	@Column(length = 512)
 	private String address;
 	
 	
@@ -50,6 +50,17 @@ public class User {
 		this.id = id;
 	}
 
+
+	public User(String email, String password, String name, String nickName, String role, int point, boolean enabled) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.nickName = nickName;
+		this.role = role;
+		this.point = point;
+		this.enabled = enabled;
+	}
 
 	public User(Integer id, String email, String password, String name, String nickName, String role, String phone,
 			String address, int point, boolean enabled) {

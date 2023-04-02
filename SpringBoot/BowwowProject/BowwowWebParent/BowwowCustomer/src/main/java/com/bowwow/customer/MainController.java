@@ -6,11 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.bowwow.common.entity.Category;
 import com.bowwow.common.entity.Product;
@@ -30,7 +28,7 @@ public class MainController {
 	
 	@Autowired
 	private UserService userService;
-
+	
 	@GetMapping("")
 	public String viewdefaultPage(Model model, Principal p) {
 
@@ -50,9 +48,7 @@ public class MainController {
 		model.addAttribute("recentproduct", productsByDate);
 		
 		// 할인율 높은 순 핫딜 Top3 가져오기 (완료)
-//		List<Product> productsHotdeal = proService.findTop3ByProductBySale();
 		List<Product> hotdealProducts = proService.findTop3ByOrderByDiscountDesc().stream().limit(3).collect(Collectors.toList());
-
 		model.addAttribute("hotdealproduct", hotdealProducts);
 		
 		

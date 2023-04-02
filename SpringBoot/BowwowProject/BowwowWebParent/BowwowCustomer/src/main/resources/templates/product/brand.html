@@ -21,7 +21,7 @@
 	<div class="recent-products-container" th:if="${recentProducts != null}" style="position: fixed;">
 		<h3 style="color: darkgray;">최근본 상품</h3>
 		<th:block th:each="recentProducts:${recentProducts}">
-			<a class="text-dark" th:href="@{'/product/detail/1/' + ${recentProducts.id}}" aria-disabled="false">
+			<a class="text-dark" th:href="@{'/product/detail/' + ${recentProducts.id} + '/1'}" aria-disabled="false">
 				<div style="text-align: center;">
 					<img th:src="@{${recentProducts.mainImagePath}}" style="width:120px"/>
 					
@@ -50,7 +50,7 @@
 	
 	    <ul class="product-list">
 	    <li th:each="list : ${listbrand}">
-	        <a th:href="@{'/product/brand/' + ${list.brand} + '/1'}" th:text="${list.brand}" class="text-warning"></a>
+	        <a th:href="@{'/product/brand/' + ${list.brand} + '/1'}" th:text="${list.brand}" style="color: #bf6e22;"></a>
 	    </li>
 		</ul>
     </div>

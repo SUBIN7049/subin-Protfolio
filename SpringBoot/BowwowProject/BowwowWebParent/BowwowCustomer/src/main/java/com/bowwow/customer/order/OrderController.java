@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bowwow.common.entity.Cart;
@@ -43,7 +44,7 @@ public class OrderController {
 //---구매 상품 정보 불러오기---------------------------------------------------------------------------	
 	@GetMapping("/order/buynow")
 	public String buynow(@RequestParam(name="productId", required=false) Integer productId, @RequestParam(name="selectdItem", required=false) ArrayList<Integer> theCartId,
-			@RequestParam(name="quantity", required=false) Integer quantity, Model model, Authentication auth) {
+			@RequestParam(name="quantity", required=false) Integer quantity, Model model, Authentication auth, @ModelAttribute("user") User user) {
 		
 		int totalPrice = 0;     // 총금액
 		int totalDiscount = 0;  // 총 할인액
@@ -72,15 +73,11 @@ public class OrderController {
 				selectedCarts.add(selectedCart);
 				totalPrice += ( selectedCart.getProduct().getPrice() * selectedCart.getCount() );
 				totalDiscount += (int) (( selectedCart.getProduct().getPrice() * selectedCart.getProduct().getDiscount() ) * selectedCart.getCount());
+				
 			}
 		} 
 		
-		for(Cart cart : selectedCarts) {
-			float discount = cart.getProduct().getDiscount();
-			int discountPercent = (int) Math.round(discount * 100);
-            model.addAttribute("discountPercent", discountPercent);
-		}
-		
+		model.addAttribute("user", theUser);
 		//선택상품 목록
 		model.addAttribute("selectedCarts", selectedCarts);
 		//총상품금액
@@ -125,13 +122,11 @@ public class OrderController {
 		return pointRate;
 	}
 	
-
-//---구매 정보 Order테이블과 OrderDetail 테이블에 각각 추가----------------------------------------------------------	
-	@GetMapping("/order/save")
+@PostMapping("/order/save")
 	public String saveOrders(@RequestParam(name="PurchaseProId") List<Integer> productId,
 			@RequestParam(name="PurchaseProCount") List<Integer> quantity, 
 			@RequestParam(name="PurchaseCartId") List<Integer> cartId,
-			Model model, Authentication auth) {
+			Model model, Authentication auth) throws Exception {
 		//로그인한 유저의 정보 가져오기
 		String userEmail = auth.getName();
 		User theUser = userService.findByEmail(userEmail);
@@ -158,7 +153,8 @@ public class OrderController {
 		if(cartId.get(0) != 0) {
 			cartService.deleteById(cartId);
 		}
-
+		
+		
 		return "buysuccess";
 	}
 	
@@ -202,4 +198,5 @@ public class OrderController {
 		}
 		return "redirect:/order/orderlist";
 	}
+	
 }

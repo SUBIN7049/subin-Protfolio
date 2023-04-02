@@ -32,14 +32,6 @@ public class ReviewController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/review")
-	public String listReview(Model model) {
-		List<Review> listreview = reviewService.listAll();
-		model.addAttribute("listreview", listreview);
-		return "product/detail";
-
-	}
-	
 	//리뷰입력&별점업데이트
 		@PostMapping("/product/reviewadd")
 		public String reviewAdd(@ModelAttribute("review")Review review,@RequestParam("id") Integer id,@RequestParam("comment")String Comment,

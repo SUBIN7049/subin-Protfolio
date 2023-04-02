@@ -6,15 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bowwow.common.entity.Category;
 import com.bowwow.common.entity.Product;
@@ -22,9 +19,10 @@ import com.bowwow.common.entity.User;
 import com.bowwow.customer.category.CategoryService;
 import com.bowwow.customer.product.ProductService;
 
+
 @Controller
 public class UserController {
-
+	
 	@Autowired
 	private UserService userService;
 	
@@ -33,6 +31,7 @@ public class UserController {
 	
 	@Autowired
     private CategoryService categoryService;
+
 	
 	@ModelAttribute("parentCategories")
     public List<Category> getParentCategories() {
@@ -56,7 +55,6 @@ public class UserController {
 	}
 	
 	@PostMapping("/users/edit")
-	//@RequestMapping(value ="/users/edit", method = {RequestMethod.GET, RequestMethod.POST})
 	public String editMyInfo(@ModelAttribute("user") User user) {
 		if(user.getId() == null) {
 			user.setRole("일반");
@@ -68,7 +66,7 @@ public class UserController {
 	
 	@GetMapping("/likeit/list")
 	public String likeItList(Model model,Principal p) {
-		if(p ==null) {
+		if(p ==null) {	// p가 null 이면 list에 아무것도 안뽑힘
 			model.addAttribute("list",null);
 		}else {
 			User theUser = userService.findByEmail(p.getName());
@@ -78,7 +76,7 @@ public class UserController {
 			List<Product> userLikes = new ArrayList<>();
 			for(int i=0; i<listLikes.size(); i++) {
 				Product product = listLikes.get(i);
-				if(product.getLikes().contains(theUser)) {
+				if(product.getLikes().contains(theUser)) {//Like에 theUser가 담겨 있으면 실행
 					float discount = product.getDiscount();
 					int discountPercent = (int) Math.round(discount * 100);
 					float score = product.getScore();
@@ -105,6 +103,13 @@ public class UserController {
 		
 		proService.save(pro);
 		return "redirect:/likeit/list";
+	}
+	
+	@GetMapping("/auth/kakao/callback")
+	public String kakaoCallback(String code) {
+		userService.kakaoLogin(code);
+		
+		return "redirect:/";
 	}
 
 }

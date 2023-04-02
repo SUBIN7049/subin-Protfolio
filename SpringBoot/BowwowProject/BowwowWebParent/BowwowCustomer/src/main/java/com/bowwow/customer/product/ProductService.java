@@ -94,4 +94,8 @@ public class ProductService {
 	public List<Product> findTop3ByOrderByRank() {
 		return proRepo.findTop3ByOrderByRank();
 	}
+
+	public List<Product> findByMainName(String mainName) {
+      return proRepo.findByMainName(mainName);
+   }
 }

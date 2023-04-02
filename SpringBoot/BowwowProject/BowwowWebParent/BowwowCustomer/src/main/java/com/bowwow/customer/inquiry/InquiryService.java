@@ -21,89 +21,33 @@ public class InquiryService {
 	@Autowired
 	private InquiryRepository inquiryRepo;
 
+	// 해당 상품의 부모 문의 불러오기
 	public Page<Inquiry> findParentInquiriesByProduct(int productId, Pageable pageable) {
 	    return inquiryRepo.findByProduct_IdAndParentIsNullOrderByRegDateDesc(productId, pageable);
 	}
 
+	// 문의 저장
 	public void save(Inquiry inquiry) {
 		inquiryRepo.save(inquiry);
-		
 	}
 
+	// 해당 문의 불러오기
 	public Inquiry findById(Integer id) {
 		return inquiryRepo.findById(id).get();
 	}
 
+	// 해당 문의 삭제
 	public void deleteById(Integer id) {
 		inquiryRepo.deleteById(id);
 	}
 
+	// 해당 유저의 문의 불러오기
 	public List<Inquiry> findByUser(User user) {
 		return inquiryRepo.findByUser(user);
 	}
 
+	// 해당 유저의 부모 문의 불러오기
 	public Page<Inquiry> findParentInquiriesByUser(Integer integer, Pageable pageable) {
 		return inquiryRepo.findByUser_IdAndParentIsNullOrderByRegDateDesc(integer, pageable);
 	}
-
-	
-	
-	
-	
-	
-//	public Inquiry createInquiry(InquiryRequest inquiryRequest) {
-//	    Inquiry inquiry = new Inquiry();
-//
-//	    // 요청에서 받아온 값을 적절한 타입으로 변환하여 inquiry 객체에 설정합니다.
-//	    inquiry.setComment(inquiryRequest.getComment());
-//
-//	    Product product = productService.getProductById(inquiryRequest.getProductId());
-//	    inquiry.setProduct(product);
-//
-//	    User user = userService.getUserById(inquiryRequest.getUserId());
-//	    inquiry.setUser(user);
-//
-//	    // 부모 문의가 있다면 연결합니다.
-//	    if (inquiryRequest.getParentId() != null) {
-//	        Inquiry parent = inquiryRepository.findById(inquiryRequest.getParentId())
-//	                .orElseThrow(() -> new EntityNotFoundException("Parent Inquiry not found"));
-//	        inquiry.setParent(parent);
-//	    }
-//
-//	    return inquiryRepository.save(inquiry);
-//	}
-//
-//	public Inquiry getInquiryById(Integer id) {
-//	    return inquiryRepository.findById(id)
-//	            .orElseThrow(() -> new EntityNotFoundException("Inquiry not found"));
-//	}
-//
-//	public Inquiry updateInquiry(Integer id, InquiryRequest inquiryRequest) {
-//	    Inquiry inquiry = inquiryRepository.findById(id)
-//	            .orElseThrow(() -> new EntityNotFoundException("Inquiry not found"));
-//
-//	    // 요청에서 받아온 값을 적절한 타입으로 변환하여 inquiry 객체에 설정합니다.
-//	    inquiry.setComment(inquiryRequest.getComment());
-//
-//	    Product product = productService.getProductById(inquiryRequest.getProductId());
-//	    inquiry.setProduct(product);
-//
-//	    User user = userService.getUserById(inquiryRequest.getUserId());
-//	    inquiry.setUser(user);
-//
-//	    // 부모 문의가 변경된 경우, 연결을 업데이트합니다.
-//	    if (inquiryRequest.getParentId() != null) {
-//	        Inquiry parent = inquiryRepository.findById(inquiryRequest.getParentId())
-//	                .orElseThrow(() -> new EntityNotFoundException("Parent Inquiry not found"));
-//	        inquiry.setParent(parent);
-//	    } else {
-//	        inquiry.setParent(null);
-//	    }
-//
-//	    return inquiryRepository.save(inquiry);
-//	}
-//
-//	public void deleteInquiry(Integer id) {
-//	    inquiryRepository.deleteById(id);
-//	}
 }

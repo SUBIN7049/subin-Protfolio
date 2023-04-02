@@ -56,11 +56,13 @@ public class ProductController {
 	@Autowired
 	private OrderService orderService;
 	
+	// 카테고리 불러오기
 	@ModelAttribute("parentCategories")
     public List<Category> getParentCategories() {
         return categoryService.getParentCategories();
     }
 	
+	// 최근 본 상품 불러오기
 	@ModelAttribute("recentProducts")
     public List<Product> getRecentProducts(HttpSession session, HttpServletRequest request) {
 		// 세션에서 사용자의 최근 본 상품 정보를 조회
@@ -76,13 +78,13 @@ public class ProductController {
 	    return null;
     }
 	
-
-	
+	// 제품 불러오기
 	@GetMapping("/product")
 	public String listProduct(Model model, Principal p) {
 		return listByPage(model, 1, null, p);
 	}
 	
+	// 제품 페이지로 불러오기
 	@GetMapping("/product/page/{pageNum}")
 	public String listByPage(Model model, @PathVariable(name = "pageNum") int pageNum,
 			@Param("keyword") String keyword, Principal p) {
@@ -100,9 +102,7 @@ public class ProductController {
 	    model.addAttribute("startCount", startCount);
 	    model.addAttribute("endCount", endCount);
 	    model.addAttribute("totalItems", page.getTotalElements());
-	    
 	    model.addAttribute("keyword", keyword);
-	    
 	    model.addAttribute("listproduct", listproduct);
 		
 	    if(p != null) {
@@ -112,8 +112,6 @@ public class ProductController {
 	    	User user = userService.findByEmail(p.getName());
 	    	
 	    	for(int i=0; i<listpro.size(); i++) {
-	    		System.err.println(listpro.get(i).getLikes().contains(user));
-    						
 	    		if(listpro.get(i).getLikes().contains(user)) {	    
 	    			userLikes.add(listpro.get(i).getId());	    			
 	    		}
@@ -121,20 +119,16 @@ public class ProductController {
     				userUnLikes.add(listpro.get(i).getId());
     			}
 	    	}	    
-	    	System.err.println(userLikes);
-	    	System.err.println(userUnLikes);
 	    	model.addAttribute("userUnLikes",userUnLikes);
 	    	model.addAttribute("userLikes",userLikes);
 	    	model.addAttribute("listproduct", listproduct);
-	  
 	    }
-	    
 		return "product/product";
 	}
 	
+	// 해당 상품의 디테일 페이지 불러오기
 	@GetMapping("/product/detail/{id}/{pageNum}")
 	public String detailProduct(Model model, @PathVariable(name = "pageNum") int pageNum, @PathVariable("id") int id, Order order, Inquiry inquiry, Review review, Principal p, HttpSession session, HttpServletRequest request) {
-		
 		if(p != null) {
 	    	List <Product> listpro = proService.listAll();
 	    	List<Integer> userLikes =  new ArrayList<>();
@@ -154,11 +148,15 @@ public class ProductController {
 	    	model.addAttribute("userLikes",userLikes);	  
 	    	model.addAttribute("user", user);
 	    }
+		
 		Product pro = proService.findById(id);
 		float discount = pro.getDiscount();
 		int discountPercent = (int) Math.round(discount * 100);
 		float score = pro.getScore();
 		float roundedScore = Math.round(score * 10) / 10.0f;
+		
+		List<Product> mainName1= proService.findByMainName(pro.getMainName());
+	    model.addAttribute("productMainName",mainName1);
 		
 		if(p != null) {
 			User user = userService.findByEmail(p.getName());
@@ -208,6 +206,7 @@ public class ProductController {
 		return "product/detail";
 	}
 	
+	// 할인중인 제품 페이지 불러오기
 	@GetMapping("/product/sale/{pageNum}")
 	public String saleProduct(Model model, @PathVariable(name = "pageNum") int pageNum, Principal p) {
 		
@@ -235,8 +234,6 @@ public class ProductController {
 	    	User user = userService.findByEmail(p.getName());
 	    	
 	    	for(int i=0; i<listpro.size(); i++) {
-	    		System.err.println(listpro.get(i).getLikes().contains(user));
-    						
 	    		if(listpro.get(i).getLikes().contains(user)) {	    
 	    			userLikes.add(listpro.get(i).getId());	    			
 	    		}
@@ -244,14 +241,14 @@ public class ProductController {
     				userUnLikes.add(listpro.get(i).getId());
     			}
 	    	}	    
-	    	System.err.println(userLikes);
-	    	System.err.println(userUnLikes);
+	    	
 	    	model.addAttribute("userUnLikes",userUnLikes);
 	    	model.addAttribute("userLikes",userLikes);	  
 	    }
 	    return "product/sale";
 	}
 	
+	// 최근 제품 페이지 불러오기
 	@GetMapping("/product/recent/{pageNum}")
 	public String newProduct(Model model, @PathVariable(name = "pageNum") int pageNum, Principal p) {
 		
@@ -279,8 +276,6 @@ public class ProductController {
 	    	User user = userService.findByEmail(p.getName());
 	    	
 	    	for(int i=0; i<listpro.size(); i++) {
-	    		System.err.println(listpro.get(i).getLikes().contains(user));
-    						
 	    		if(listpro.get(i).getLikes().contains(user)) {	    
 	    			userLikes.add(listpro.get(i).getId());	    			
 	    		}
@@ -288,14 +283,13 @@ public class ProductController {
     				userUnLikes.add(listpro.get(i).getId());
     			}
 	    	}	    
-	    	System.err.println(userLikes);
-	    	System.err.println(userUnLikes);
 	    	model.addAttribute("userUnLikes",userUnLikes);
 	    	model.addAttribute("userLikes",userLikes);	  
 	    }
 	    return "product/recent";
 	}
 	
+	// 제품 랭킹 페이지 불러오기
 	@GetMapping("/product/rank/{pageNum}")
 	public String rankProduct(Model model, @PathVariable(name = "pageNum") int pageNum, Principal p) {
 		
@@ -326,8 +320,6 @@ public class ProductController {
 	    	User user = userService.findByEmail(p.getName());
 	    	
 	    	for(int i=0; i<listpro.size(); i++) {
-	    		System.err.println(listpro.get(i).getLikes().contains(user));
-    						
 	    		if(listpro.get(i).getLikes().contains(user)) {	    
 	    			userLikes.add(listpro.get(i).getId());	    			
 	    		}
@@ -335,19 +327,18 @@ public class ProductController {
     				userUnLikes.add(listpro.get(i).getId());
     			}
 	    	}	    
-	    	System.err.println(userLikes);
-	    	System.err.println(userUnLikes);
 	    	model.addAttribute("userUnLikes",userUnLikes);
 	    	model.addAttribute("userLikes",userLikes);	  
 	    }
 	    return "product/rank";
 	}
 	
+	// 제품 브랜드 불러오기
 	@GetMapping("/product/brand")
 	public String listBrand(Product product, Model model, @Param("keyword") String keyword) {
 	    List<Product> list = proService.listBrand(keyword);
 	    
-	    Set<String> uniqueBrands = new HashSet<>();
+	    Set<String> uniqueBrands = new HashSet<>(); // Set을 이용해 브랜드 중복 제거
 	    List<Product> listbrand = new ArrayList<>();
 	    
 	    for (Product p : list) {
@@ -355,13 +346,13 @@ public class ProductController {
 	        	listbrand.add(p);
 	        }
 	    }
-	    
 	    model.addAttribute("keyword", keyword);
 	    model.addAttribute("listbrand", listbrand);
 	    
 	    return "product/brand";
 	}
 	
+	// 해당 브랜드 제품 페이지 불러오기
 	@GetMapping("/product/brand/{brand}/{pageNum}")
 	public String brandProduct(Model model, @PathVariable("brand") String brand,
 			@PathVariable(name = "pageNum") int pageNum, Principal p) {
@@ -380,8 +371,6 @@ public class ProductController {
 	    	User user = userService.findByEmail(p.getName());
 	    	
 	    	for(int i=0; i<listpro.size(); i++) {
-	    		System.err.println(listpro.get(i).getLikes().contains(user));
-    						
 	    		if(listpro.get(i).getLikes().contains(user)) {	    
 	    			userLikes.add(listpro.get(i).getId());	    			
 	    		}
@@ -389,8 +378,6 @@ public class ProductController {
     				userUnLikes.add(listpro.get(i).getId());
     			}
 	    	}	    
-	    	System.err.println(userLikes);
-	    	System.err.println(userUnLikes);
 	    	model.addAttribute("userUnLikes",userUnLikes);
 	    	model.addAttribute("userLikes",userLikes);	  
 	    }

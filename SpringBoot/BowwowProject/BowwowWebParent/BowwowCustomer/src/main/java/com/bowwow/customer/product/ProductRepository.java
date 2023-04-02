@@ -45,6 +45,8 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 
 	public Page<Product> findByCategoryIdIn(List<Category> categoryIds, Pageable pageable);
 
+	public List<Product> findByMainName(String mainName);
+
 
 	
 }
